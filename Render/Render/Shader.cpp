@@ -130,11 +130,11 @@ namespace Engine
 			else if (clipside == 4) { v0code = v0p.z >= -v0w ? 0 : 1; v1code = v1p.z >= -v1w ? 0 : 1; vf = v0p.z; vt = v1p.z; }
 			else if (clipside == 5) { v0code = v0p.z <= v0w ? 0 : 1; v1code = v1p.z <= v1w ? 0 : 1; vf = v0p.z; vt = v1p.z; }
 
-			//计算交点
+			//计算交点(裁剪面平移至原点可以统一坐标系)
 			if (v0code != v1code)
 			{
-				if (clipside % 2 == 0) { top = vf + v0p.w; bot = vf - vt + v0p.w - v1p.w; }
-				else { top = vf - v0p.w; bot = vf - vt + v1p.w - v0p.w; }
+				if (clipside % 2 == 0) { top = (vf + v0p.w); bot = (vf + v0p.w) - (vt + v1p.w); }
+				else { top = (vf - v0p.w); bot = (vf - v0p.w) - (vt - v1p.w); }
 				if (abs(bot) <= Math::EPSILON) vpf = v1f;
 				else vpf = Fragment::Lerp(v0f, v1f, top / bot, false);
 			}
